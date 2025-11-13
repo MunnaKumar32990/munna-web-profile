@@ -1,3 +1,5 @@
+// Portfolio data for migration
+// This is a copy of the data from src/utils/data.js
 export const personalData = {
   initials:"M",
   name: "Munna Kumar",
@@ -37,7 +39,7 @@ innovative development teams.`,
       {
         year:"2025",
         title:"Infosys Springboard Virtual Internship 6.0",
-        description: "Artificial Intelligence Intern — Infosys Springboard (Aug 2025 – Oct 2025)Worked on the project “AI-Powered Regulatory Compliance Checker”, focusing on leveraging AI models to automate and streamline compliance verification processes.Gained hands-on experience in applying various machine learning and AI techniques, collaborating within a team environment, and managing end-to-end project development — from model selection to deployment and testing.Strengthened skills in AI integration, teamwork, and problem-solving through real-world project exposure.Selected for the Infosys Springboard Virtual Internship starting on 25th August 2025 in the AI domain. Looking forward to gaining hands-on experience in artificial intelligence, contributing to innovative projects, and enhancing my technical and problem-solving skills."
+        description: "Artificial Intelligence Intern — Infosys Springboard (Aug 2025 – Oct 2025)Worked on the project \"AI-Powered Regulatory Compliance Checker\", focusing on leveraging AI models to automate and streamline compliance verification processes.Gained hands-on experience in applying various machine learning and AI techniques, collaborating within a team environment, and managing end-to-end project development — from model selection to deployment and testing.Strengthened skills in AI integration, teamwork, and problem-solving through real-world project exposure.Selected for the Infosys Springboard Virtual Internship starting on 25th August 2025 in the AI domain. Looking forward to gaining hands-on experience in artificial intelligence, contributing to innovative projects, and enhancing my technical and problem-solving skills."
 
       },
        {
@@ -60,6 +62,27 @@ innovative development teams.`,
   projects: [
     {
       id: 1,
+      title: "AI-Rural Voice Assistant",
+      description: "Built an AI-powered voice assistant for rural Indian farmers that provides weather, crop price, and government scheme information in local dialects. AI Integration: Used OpenAI GPT-4 and Azure Speech Services for multilingual Speech-to-Text and Text-to-Speech capabilities.",
+      image: "./aivoice.png",
+      tags: ["Python", "OpenAI", "Azure Speech Services", "Azure Cognitive Services","Socket.io"],
+      liveUrl: "#",
+      githubUrl: "https://github.com/MunnaKumar32990/AI-RURAL-VOICE-ASSISTANT",
+      details: "Built an AI-powered voice assistant for rural Indian farmers using OpenAI GPT-4 and Azure Speech Services, enabling multilingual communication in local dialects for weather, crop prices, and government scheme information."
+    },
+    
+    {
+      id: 2,
+      title: "AI-Powered Regulatory Compliance Checker",
+      description: "An AI-powered regulatory compliance checker that checks if a company is compliant with the laws and regulations",
+      image: "./ai-powered-regulatory-compliance-checker.png",
+      tags: ["Python", "FastAPI", "Groq","gemini","slack","streamlit"],
+      liveUrl: "#",
+      githubUrl: "https://github.com/MunnaKumar32990/AI-Contract-Compliance-Checker",
+      details: "Developed an AI-powered regulatory compliance checker using FastAPI, Groq, and Gemini to automate compliance verification for companies, ensuring adherence to laws and regulations."
+    },
+    {
+      id: 3,
       title: "Real Time Chat Application",
       description: "A real-time chat application with user authentication and message history",
       image: "./chat.png",
@@ -70,7 +93,7 @@ innovative development teams.`,
     },
 
     {
-      id: 2,
+      id: 4,
       title: "AI-Notes Summarizer and Sharer",
       description: "Full Stack Project Using Flask And Groq (AI-powered meeting notes summarizer and sharer)",
       image: "./image.png",
@@ -80,7 +103,7 @@ innovative development teams.`,
       details: "Full Stack Project Using Flask And Groq (AI-powered meeting notes summarizer and sharer)."
     },
     {
-      id: 3,
+      id: 5,
       title: "AI-Powered Resume Builder",
       description: "An AI-driven resume builder that generates personalized resumes based on user input",
       image: "./airesume.png",
@@ -90,7 +113,7 @@ innovative development teams.`,
       details: "Developed an AI-powered resume builder that generates personalized resumes using OpenAI API, enhancing user experience with automated content generation and formatting."
     },
     {
-      id: 4,
+      id: 6,
       title: "Employee Management System",
       description: "A comprehensive employee management system with role-based access control",
       image: "./employee.png",
@@ -181,7 +204,7 @@ innovative development teams.`,
     category: "language"
   },
  
- 
+
 ],
 
 
@@ -230,3 +253,4 @@ innovative development teams.`,
     },
   ]
 };
+
