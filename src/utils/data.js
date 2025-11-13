@@ -235,7 +235,7 @@ export const personalData = {
     {
       name: "CodeChef",
       username: "munnakumar32990",
-      stats: "1-star rating",
+      stats: "324+ problems solved",
       icon: "Code",
       url: "https://www.codechef.com/users/kl2300032990"
     },
