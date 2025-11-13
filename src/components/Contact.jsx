@@ -31,8 +31,8 @@ const Contact = () => {
         body: JSON.stringify(data)
       });
       if (!res.ok) throw new Error('Failed to send');
-      setIsSubmitted(true);
-      reset();
+    setIsSubmitted(true);
+    reset();
       setTimeout(() => setIsSubmitted(false), 4000);
     } catch (e) {
       alert('Failed to send message. Please try again later.');

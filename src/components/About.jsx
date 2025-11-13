@@ -12,10 +12,11 @@ const About = () => {
   const isInView = useInView(ref, { once: true, threshold: 0.3 });
 
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 relative overflow-hidden" id="about">
-      {/* Decorative elements */}
-      <div className="absolute top-20 -right-20 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-500/5"></div>
-      <div className="absolute bottom-10 left-0 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl dark:bg-purple-500/5"></div>
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative overflow-hidden" id="about">
+      {/* Enhanced decorative elements */}
+      <div className="absolute top-20 -right-20 w-96 h-96 rounded-full bg-blue-500/20 blur-3xl dark:bg-blue-500/10 animate-pulse"></div>
+      <div className="absolute bottom-10 left-0 w-80 h-80 rounded-full bg-purple-500/20 blur-3xl dark:bg-purple-500/10 animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-indigo-500/10 blur-3xl dark:bg-indigo-500/5"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
@@ -105,19 +106,31 @@ const About = () => {
               
               {/* About Me Card */}
               <motion.div 
-                className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl shadow-xl overflow-hidden"
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
+                className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl shadow-xl overflow-hidden"
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
+                transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
+                whileHover={{ y: -5, scale: 1.02 }}
               >
-                <div className="p-8 text-white">
-                  <div className="flex items-center gap-3 mb-6">
+                <div className="p-8 text-white relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                  <div className="flex items-center gap-3 mb-6 relative z-10">
+                    <motion.div
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                    >
                     <Globe className="w-8 h-8" />
+                    </motion.div>
                     <h3 className="text-xl font-bold">About Me</h3>
                   </div>
-                  <p className="leading-relaxed text-blue-100">
+                  <motion.p 
+                    className="leading-relaxed text-white/90 relative z-10"
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ delay: 0.8, duration: 0.8 }}
+                  >
                     {personalData.about?.description || ''}
-                  </p>
+                  </motion.p>
                 </div>
               </motion.div>
             </motion.div>
@@ -164,18 +177,25 @@ const About = () => {
                           <div className="w-2 h-2 bg-white rounded-full"></div>
                         </div>
                         
-                        <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                        <motion.div 
+                          className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-200/50 dark:border-slate-700/50"
+                          whileHover={{ x: 5, scale: 1.02 }}
+                        >
                           <div className="flex items-center gap-3 mb-4">
-                            <div className="bg-blue-500/10 dark:bg-blue-500/20 p-2 rounded-lg">
+                            <motion.div 
+                              className="bg-blue-500/10 dark:bg-blue-500/20 p-2 rounded-lg"
+                              whileHover={{ rotate: 360 }}
+                              transition={{ duration: 0.5 }}
+                            >
                               <Clock className="text-blue-600 dark:text-blue-400 w-4 h-4" />
-                            </div>
+                            </motion.div>
                             <span className="text-xs font-semibold text-blue-600 bg-blue-100 dark:bg-blue-900/50 px-3 py-1 rounded-full">
                               {item.year}
                             </span>
                           </div>
                           <h4 className="font-bold text-xl text-slate-800 dark:text-slate-200 mb-2">{item.title}</h4>
-                          <p className="text-slate-600 dark:text-slate-400">{item.description}</p>
-                        </div>
+                          <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{item.description}</p>
+                        </motion.div>
                       </motion.div>
                     ))}
                   </div>

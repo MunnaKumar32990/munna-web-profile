@@ -29,17 +29,13 @@ export const personalData = {
 ],
   
   about: {
-    description: `Detail-oriented Full Stack Developer with robust expertise in Python, JavaScript, Java, and C. Solved 155+ algorithmic
-problems on LeetCode, showcasing strong analytical and problem-solving abilities. Proficient in developing scalable, secure
-web applications using Django, React.js, and the MERN stack. Experienced with deploying cloud-native solutions leveraging
-AWS services. Passionate about AI integration and cloud infrastructure, aiming to contribute meaningfully to dynamic and
-innovative development teams.`,
+    description: `I’m a Full Stack Developer dedicated to building efficient, scalable, and high-quality applications. My expertise spans Python, Java, and the MERN stack (MongoDB, Express.js, React.js, Node.js), with a strong emphasis on writing clean, maintainable, and optimized code. Having solved 189+ algorithmic problems on LeetCode, I bring strong analytical and problem-solving skills to every project I undertake. I’m deeply interested in cloud technologies, AI-driven solutions, and modern development practices that enhance system performance and innovation.`,
   
     timeline : [
       {
         year:"2025",
         title:"Infosys Springboard Virtual Internship 6.0",
-        description: "Artificial Intelligence Intern — Infosys Springboard (Aug 2025 – Oct 2025)Worked on the project \"AI-Powered Regulatory Compliance Checker\", focusing on leveraging AI models to automate and streamline compliance verification processes.Gained hands-on experience in applying various machine learning and AI techniques, collaborating within a team environment, and managing end-to-end project development — from model selection to deployment and testing.Strengthened skills in AI integration, teamwork, and problem-solving through real-world project exposure.Selected for the Infosys Springboard Virtual Internship starting on 25th August 2025 in the AI domain. Looking forward to gaining hands-on experience in artificial intelligence, contributing to innovative projects, and enhancing my technical and problem-solving skills."
+        description: "Artificial Intelligence Intern — Infosys Springboard (Aug 2025 – Oct 2025)Worked on the project “AI-Powered Regulatory Compliance Checker”, leveraging AI and machine learning models to automate and streamline compliance verification. Collaborated in a team environment, managing end-to-end project development from model selection to deployment and testing. Strengthened skills in AI integration, teamwork, and problem-solving through real-world project exposure as part of the Infosys Springboard Virtual Internship in the AI domain."
 
       },
        {

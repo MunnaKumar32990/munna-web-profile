@@ -88,35 +88,41 @@ const Certifications = () => {
             {(personalData.certifications || []).map((cert, index) => (
               <motion.div
                 key={cert.id}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                initial={{ opacity: 0, y: 50, scale: 0.9, rotateY: -15 }}
                 animate={isContainerInView ? { 
                   opacity: 1, 
                   y: 0, 
-                  scale: 1
+                  scale: 1,
+                  rotateY: 0
                 } : { 
                   opacity: 0, 
-                  y: 30, 
-                  scale: 0.95
+                  y: 50, 
+                  scale: 0.9,
+                  rotateY: -15
                 }}
                 transition={{ 
-                  delay: index * 0.1, 
-                  duration: 0.5, 
-                  ease: "easeOut"
+                  delay: index * 0.15, 
+                  duration: 0.6, 
+                  ease: [0.16, 1, 0.3, 1]
                 }}
                 whileHover={{ 
-                  y: -10,
-                  boxShadow: "0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)"
+                  y: -12,
+                  scale: 1.03,
+                  rotateY: 5,
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)"
                 }}
-                className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-200 dark:border-slate-700 flex flex-col"
+                className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-200 dark:border-slate-700 flex flex-col group"
               >
                 {/* Card Header with Image */}
-                <div className="relative overflow-hidden h-56 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/70 z-10" />
+                <div className="relative overflow-hidden h-56 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 group-hover:from-blue-50 group-hover:to-purple-50 dark:group-hover:from-blue-900/20 dark:group-hover:to-purple-900/20 transition-all duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-slate-900/70 z-10 group-hover:via-blue-500/20 transition-all duration-500" />
                   
-                  <img
+                  <motion.img
                     src={cert.image}
                     alt={cert.title}
-                    className="w-full h-full object-contain p-4"
+                    className="w-full h-full object-contain p-4 relative z-0"
+                    whileHover={{ scale: 1.1, rotate: 2 }}
+                    transition={{ duration: 0.4 }}
                   />
                   
                   {/* Issuer Badge */}
@@ -177,12 +183,18 @@ const Certifications = () => {
                       href={cert.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="inline-flex items-center justify-between w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg transition-all group/link shadow-md hover:shadow-lg"
+                      whileHover={{ scale: 1.05, x: 2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-flex items-center justify-between w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg transition-all group/link shadow-md hover:shadow-xl relative overflow-hidden"
                     >
-                      <span>View Certificate</span>
-                      <ChevronRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
+                        initial={{ x: '-100%' }}
+                        whileHover={{ x: '100%' }}
+                        transition={{ duration: 0.6 }}
+                      />
+                      <span className="relative z-10">View Certificate</span>
+                      <ChevronRight className="w-4 h-4 transition-transform group-hover/link:translate-x-2 relative z-10" />
                     </motion.a>
                   </div>
                 </div>
