@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== CSS Custom Properties ===== */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Brand Colors – Warm Earthy Palette */
+  --color-bg: #F5F5DC;
+  --color-primary: #8B5E3C;
+  --color-primary-dark: #6e4a2e;
+  --color-secondary: #EADBC8;
+  --color-text: #3A2D28;
+  --color-accent: #c4875a;
+  --color-success: #6a9e72;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #8B5E3C 0%, #c4875a 50%, #EADBC8 100%);
+  --gradient-hero: linear-gradient(135deg, #2a1f1a 0%, #3A2D28 50%, #1a1210 100%);
+
+  /* Shadows */
+  --shadow-glass: 0 8px 32px 0 rgba(58, 45, 40, 0.25);
+  --shadow-glow: 0 0 40px rgba(139, 94, 60, 0.35);
+  --shadow-card: 0 20px 60px rgba(58, 45, 40, 0.10);
+}
+
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EADBC8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8B5E3C, #c4875a);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #6e4a2e, #8B5E3C);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #2a1f1a;
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: rgba(139, 94, 60, 0.3);
+  color: #3A2D28;
+}
+
+/* ===== Glassmorphism Utility ===== */
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .glass-dark {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-indigo {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* ===== Animated gradient border ===== */
+@keyframes gradient-border {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ===== Floating animation ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ===== Shimmer animation ===== */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* ===== Smooth image rendering ===== */
+img {
+  image-rendering: auto;
+}
+
+/* ===== Focus styles for accessibility ===== */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== Remove default button styles ===== */
+button {
+  cursor: pointer;
+}
+
+/* ===== Section transitions ===== */
+section {
+  position: relative;
+}
+
+/* ===== Card base style ===== */
+@layer components {
+  .card {
+    @apply bg-[#FEFCF7] dark:bg-[#2a1f1a] rounded-2xl shadow-lg border border-[#EADBC8]/80 dark:border-[#5a3e2b]/60 transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-[#8B5E3C] to-[#c4875a] hover:from-[#6e4a2e] hover:to-[#8B5E3C] text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold;
+  }
+
+  .section-subtitle {
+    @apply text-[#8B5E3C] dark:text-[#c4875a] text-sm font-semibold tracking-widest uppercase;
+  }
+}
