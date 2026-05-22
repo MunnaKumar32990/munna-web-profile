@@ -6,7 +6,7 @@ class PortfolioAPI {
     this.baseURL = API_BASE_URL;
     this.cache = null;
     this.cacheTime = null;
-    this.CACHE_DURATION = 1 * 60 * 1000; // 1 minute cache (reduced from 5 minutes)
+    this.CACHE_DURATION = 0; // Disable cache temporarily
   }
 
   async fetchPortfolio() {
@@ -31,15 +31,7 @@ class PortfolioAPI {
       return data;
     } catch (error) {
       console.error('Error fetching portfolio data:', error);
-      
-      // Fallback to local data if API fails
-      console.warn('Falling back to local data...');
-      try {
-        const { personalData } = await import('../utils/data.js');
-        return personalData;
-      } catch (importError) {
-        throw new Error('Failed to fetch portfolio data from API and fallback failed');
-      }
+      throw new Error('Failed to fetch portfolio data from API');
     }
   }
 

@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Send, CheckCircle, Mail, Phone, MapPin, Github, Linkedin, Twitter, MessageSquare } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const ContactInfoItem = ({ icon: Icon, label, value, href, iconBg }) => (
   <motion.a
@@ -73,8 +72,10 @@ const FloatingLabel = ({ id, label, type = 'text', register, error, rows }) => {
 };
 
 const Contact = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
   const [isSubmitting, setIsSubmitting] = useState(false);

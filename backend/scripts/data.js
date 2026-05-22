@@ -1,4 +1,7 @@
 // Portfolio data for migration
+
+import { link } from "node:fs";
+
 // This is a copy of the data from src/utils/data.js
 export const personalData = {
   initials:"M",
@@ -8,7 +11,7 @@ export const personalData = {
   email: "munnakushw7@gmail.com",
   phone: "+91 6207693788",
   location: "India",
-  profileImage: "./profile.png",
+  profileImage: "./NewProfile.png",
 
   education: [
   {
@@ -24,12 +27,12 @@ export const personalData = {
   {
     year: "2023–present",
     title: "Bachelor of Technology in Computer Science",
-    description: "Pursuing B.Tech at KL University, Vijayawada, with a current CGPA of 9.55."
+    description: "Pursuing B.Tech at KL University, Vijayawada, with a current CGPA of 9.58."
   }
 ],
   
   about: {
-    description: `Detail-oriented Full Stack Developer with robust expertise in Python, JavaScript, Java, and C. Solved 155+ algorithmic
+    description: `Detail-oriented Full Stack Developer with robust expertise in Python, JavaScript, Java, and C. Solved 198+ algorithmic
 problems on LeetCode, showcasing strong analytical and problem-solving abilities. Proficient in developing scalable, secure
 web applications using Django, React.js, and the MERN stack. Experienced with deploying cloud-native solutions leveraging
 AWS services. Passionate about AI integration and cloud infrastructure, aiming to contribute meaningfully to dynamic and
@@ -126,29 +129,38 @@ innovative development teams.`,
 
   skills: {
     frontend: [
-      { name: "React", level: 90 },
-      { name: "JavaScript", level: 95 },
-      { name: "TypeScript", level: 85 },
-      { name: "HTML/CSS", level: 98 },
-      { name: "Tailwind CSS", level: 92 }
+      { name: "React" },
+      { name: "JavaScript" },
+      { name: "HTML/CSS" },
+      { name: "Tailwind CSS" }
     ],
     backend: [
-      { name: "Node.js", level: 80 },
-      { name: "Express", level: 75 },
-      { name: "MongoDB", level: 70 },
-      { name: "REST APIs", level: 85 }
+      { name: "Node.js" },
+      { name: "Express" },
+      { name: "MongoDB" },
+      { name: "REST APIs" }
     ],
     tools: [
-      { name: "Git", level: 90 },
-      { name: "Webpack", level: 75 },
-      { name: "Docker", level: 65 },
-      { name: "AWS", level: 60 }
+      { name: "Git" },
+      { name: "GitHub" },
+      { name: "Docker" },
+      { name: "AWS" }
     ]
   },
 
   certifications: [
+    {
+      id: 1,
+      title: "AWS Cloud Practitioner",
+      issuer: "Amazon Web Services (AWS)",
+      date: "2026",
+      image:"Aws.png",
+      link: "https://drive.google.com/file/d/1LOVdSDaX5uFpvR_7D9JvrzmQkaIyxZ_X/view?usp=sharing",
+      category : "cloud"
+
+    },
   {
-    id: 1,
+    id: 2,
     title: "Microsoft Certified: Azure Fundamentals",
     issuer: "Microsoft",
     date: "2025",
@@ -157,7 +169,7 @@ innovative development teams.`,
     category: "cloud"
   },
    {
-    id: 2,
+    id: 3,
     title: "Oracle Certified AI Associate",
     issuer: "Oracle",
     date: "2025",
@@ -166,8 +178,18 @@ innovative development teams.`,
     category: "ai"
 
   },
+  {
+    id:4,
+    title: "MongoDb Associate Developer",
+    issuer: "MongoDb",
+    date: "2026",
+    image : "Mongo.png",
+    link: "https://www.credly.com/badges/14ef9681-2653-4266-be7a-cf6c4248d2e3/print",
+    category: "Database"
+  },
+
    {
-    id: 3,
+    id: 5,
     title: "Salesforce Certified AI Associate",
     issuer: "Salesforce",
     date: "2024",
@@ -177,7 +199,7 @@ innovative development teams.`,
 
   },
   {
-    id: 4,
+    id: 6,
     title: "NPTEL Programming in Java",
     issuer: "NPTEL",
     date: "2024",
@@ -186,7 +208,7 @@ innovative development teams.`,
     category: "development"
   },
   {
-    id: 5,
+    id: 7,
     title: "NPTEL Operating System Fundamentals",
     issuer: "NPTEL",
     date: "2024",
@@ -195,7 +217,7 @@ innovative development teams.`,
     category: "computer-science"
   },
   {
-    id: 6,
+    id: 8,
     title: "LinguaSkill English Language Proficiency",
     issuer: "Cambridge University Press",
     date: "2024",
@@ -212,14 +234,14 @@ innovative development teams.`,
     {
       name: "GitHub",
       username: "munnakumar32990",
-      stats: "48+ repositories",
+      stats: "60+ repositories",
       icon: "Github",
       url: "https://github.com/munnakumar32990"
     },
     {
       name: "LeetCode",
       username: "munnakumar",
-      stats: "189+ problems solved",
+      stats: "198+ problems solved",
       icon: "Code",
       url: "https://leetcode.com/u/KLU2300032990/"
     },
@@ -242,14 +264,6 @@ innovative development teams.`,
       stats: "1-star rating",
       icon: "Code",
       url: "https://www.codechef.com/users/kl2300032990"
-    },
-
-    {
-      name: "Spoj",
-      username: "munnakumar32990",
-      stats: "1-star rating",
-      icon: "Code",
-      url: "https://www.spoj.com/users/kl2300032990"
     },
   ]
 };

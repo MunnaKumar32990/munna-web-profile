@@ -2,11 +2,12 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ExternalLink, Github, X, ArrowRight, Tag } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const Projects = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.05 });
   const [selectedProject, setSelectedProject] = useState(null);

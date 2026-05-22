@@ -2,7 +2,6 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { GraduationCap, Calendar, Award, BookOpen, Rocket, Lightbulb } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const educationIcons = [
   <GraduationCap className="w-5 h-5" style={{ color: '#8B5E3C' }} />,
@@ -37,8 +36,8 @@ const iconBgColors = [
 ];
 
 const Education = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
   const educationData = personalData.education || [];

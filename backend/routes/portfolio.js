@@ -18,16 +18,20 @@ router.get('/', async (req, res) => {
 
     // Compute live stats and inject into response (non-breaking)
     let live = null;
+    /* Disabled live stats fetching
     try {
       live = await computeStats();
     } catch (e) {
       // Do not fail the whole request if stats fail
       live = null;
     }
+    */
 
     const doc = portfolio.toObject();
 
     // Enhance codingPlatforms stats strings for display
+    // Commented out to use static data instead of live API data
+    /*
     if (Array.isArray(doc.codingPlatforms)) {
       const platforms = [...doc.codingPlatforms];
       const mapByName = (name) => platforms.find(p => (p.name || '').toLowerCase() === name.toLowerCase());
@@ -60,9 +64,10 @@ router.get('/', async (req, res) => {
 
       doc.codingPlatforms = platforms;
     }
+    */
 
     // Also include a separate liveStats object for advanced UI
-    doc.liveStats = live;
+    // doc.liveStats = live; // Disabled
 
     res.json(doc);
   } catch (error) {

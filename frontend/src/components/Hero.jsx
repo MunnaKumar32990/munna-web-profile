@@ -5,7 +5,6 @@ import {
   Github, Linkedin, ExternalLink, Cpu, Globe, Sparkles,
 } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 import { useTypewriter } from '../hooks/useTypewriter';
 import ThemeToggle from './ThemeToggle';
 
@@ -58,8 +57,10 @@ const StatCard = ({ value, label, delay }) => (
 );
 
 const Hero = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeBadge, setActiveBadge] = useState(0);
   const shouldReduce = useReducedMotion();
@@ -81,7 +82,7 @@ const Hero = () => {
 
   const downloadResume = () => {
     const a = document.createElement('a');
-    a.href = '/HaResume.pdf';
+    a.href = '/PortfolioResume.pdf';
     a.download = 'MunnaKumar_Resume.pdf';
     document.body.appendChild(a);
     a.click();
@@ -314,9 +315,9 @@ const Hero = () => {
 
             {/* Stats */}
             <motion.div variants={itemV} className="flex gap-3 flex-wrap">
-              <StatCard value="189+" label="LeetCode Solved" delay={0.8} />
-              <StatCard value="48+"  label="GitHub Repos"    delay={1.0} />
-              <StatCard value="9.55" label="CGPA"            delay={1.2} />
+              <StatCard value="198+" label="LeetCode Solved" delay={0.8} />
+              <StatCard value="60+"  label="GitHub Repos"    delay={1.0} />
+              <StatCard value="9.58" label="CGPA"            delay={1.2} />
             </motion.div>
 
             {/* Tech expertise rotating tag */}

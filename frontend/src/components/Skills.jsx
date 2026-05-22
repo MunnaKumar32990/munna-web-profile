@@ -1,12 +1,10 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const skillIcons = {
-  React: 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
+  React: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
   JavaScript: 'https://cdn.worldvectorlogo.com/logos/javascript-1.svg',
-  TypeScript: 'https://cdn.worldvectorlogo.com/logos/typescript.svg',
   'HTML/CSS': 'https://cdn.worldvectorlogo.com/logos/html-1.svg',
   'Tailwind CSS': 'https://cdn.worldvectorlogo.com/logos/tailwind-css-2.svg',
   'Node.js': 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg',
@@ -14,15 +12,14 @@ const skillIcons = {
   MongoDB: 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
   'REST APIs': 'https://cdn-icons-png.flaticon.com/512/4248/4248443.png',
   Git: 'https://cdn.worldvectorlogo.com/logos/git-icon.svg',
-  Webpack: 'https://cdn.worldvectorlogo.com/logos/webpack-icon.svg',
+  GitHub: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
   Docker: 'https://cdn.worldvectorlogo.com/logos/docker.svg',
   AWS: 'https://cdn.worldvectorlogo.com/logos/aws-2.svg',
   Python: 'https://cdn.worldvectorlogo.com/logos/python-5.svg',
   Java: 'https://cdn.worldvectorlogo.com/logos/java-4.svg',
   SpringBoot: 'https://cdn.worldvectorlogo.com/logos/spring-3.svg',
-  Flask: 'https://cdn.worldvectorlogo.com/logos/flask.svg',
+  FastAPI: 'https://cdn.worldvectorlogo.com/logos/fastapi-1.svg',
   SQL: 'https://cdn-icons-png.flaticon.com/512/4248/4248443.png',
-  PostgreSQL: 'https://cdn.worldvectorlogo.com/logos/postgresql.svg',
 };
 
 // Warm earthy category colors
@@ -119,8 +116,10 @@ const SkillCard = ({ skill, index, colors, isInView }) => (
 );
 
 const Skills = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.05 });
 
@@ -129,11 +128,10 @@ const Skills = () => {
     backend: [
       ...(personalData.skills?.backend || []),
       { name: 'SpringBoot' },
-      { name: 'Flask' },
+      { name: 'FastAPI' },
     ],
     database: [
       { name: 'SQL' },
-      { name: 'PostgreSQL' },
       { name: 'MongoDB' },
     ],
   };

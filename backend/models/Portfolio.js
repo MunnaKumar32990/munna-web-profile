@@ -30,7 +30,7 @@ const ProjectSchema = new mongoose.Schema({
 
 const SkillSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  level: { type: Number, required: true, min: 0, max: 100 }
+  level: { type: Number, min: 0, max: 100 }
 }, { _id: false });
 
 const SkillsSchema = new mongoose.Schema({

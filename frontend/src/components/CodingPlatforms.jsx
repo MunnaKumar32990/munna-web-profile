@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Code, Trophy, Zap, GitBranch, Award, ChevronRight } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const platformImages = {
   github:      'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
@@ -10,17 +9,16 @@ const platformImages = {
   hackerrank:  'https://cdn.worldvectorlogo.com/logos/hackerrank.svg',
   codechef:    'https://cdn.codechef.com/sites/all/themes/abessive/cc-logo.svg',
   codeforces:  'https://sta.codeforces.com/s/92438/images/codeforces-logo-with-telegram.png',
-  spoj: '',
+  
 };
 
 // Warm earthy per-platform appearances
 const platformExtras = {
-  GitHub:     { cardBg: 'rgba(139,94,60,0.08)', barFrom: '#8B5E3C', barTo: '#c4875a', accent: '#8B5E3C', badgeBg: 'rgba(139,94,60,0.12)', badgeText: '#8B5E3C',  badges: ['Contributor', 'Open Source'], progress: 85, rank: 'Advanced',     image: platformImages.github,      icon: GitBranch },
-  LeetCode:   { cardBg: 'rgba(196,135,90,0.10)', barFrom: '#c4875a', barTo: '#EADBC8', accent: '#c4875a', badgeBg: 'rgba(196,135,90,0.15)', badgeText: '#a06840',  badges: ['Top 35%', 'Daily Streak'],   progress: 65, rank: 'Intermediate', image: platformImages.leetcode,    icon: Code    },
-  HackerRank: { cardBg: 'rgba(139,94,60,0.06)', barFrom: '#a06840', barTo: '#c4875a', accent: '#a06840', badgeBg: 'rgba(160,104,64,0.12)', badgeText: '#6e4a2e',  badges: ['Gold Badge', '15 Certs'],    progress: 75, rank: 'Proficient',   image: platformImages.hackerrank,  icon: Award   },
-  CodeChef:   { cardBg: 'rgba(196,135,90,0.07)', barFrom: '#8B5E3C', barTo: '#a06840', accent: '#7a4a2a', badgeBg: 'rgba(139,94,60,0.10)', badgeText: '#7a4a2a',  badges: ['200+ Problems'],             progress: 45, rank: 'Beginner',    image: platformImages.codechef,    icon: Trophy  },
-  Codeforces: { cardBg: 'rgba(234,219,200,0.40)', barFrom: '#a06840', barTo: '#8B5E3C', accent: '#8B5E3C', badgeBg: 'rgba(234,219,200,0.6)', badgeText: '#6e4a2e', badges: ['Rated'],                     progress: 50, rank: 'Intermediate', image: platformImages.codeforces,  icon: Zap     },
-  Spoj:       { cardBg: 'rgba(245,245,220,0.50)', barFrom: '#c4875a', barTo: '#EADBC8', accent: '#6B5A4E', badgeBg: 'rgba(234,219,200,0.5)', badgeText: '#6B5A4E', badges: ['Problem Solver'],            progress: 40, rank: 'Beginner',    image: platformImages.spoj,        icon: Code    },
+  GitHub:     { cardBg: 'rgba(139,94,60,0.08)', barFrom: '#8B5E3C', barTo: '#c4875a', accent: '#8B5E3C', badgeBg: 'rgba(139,94,60,0.12)', badgeText: '#8B5E3C',  badges: ['Contributor', 'Open Source'], rank: 'Advanced',     image: platformImages.github,      icon: GitBranch },
+  LeetCode:   { cardBg: 'rgba(196,135,90,0.10)', barFrom: '#c4875a', barTo: '#EADBC8', accent: '#c4875a', badgeBg: 'rgba(196,135,90,0.15)', badgeText: '#a06840',  badges: ['Top 35%', 'Daily Streak'],   rank: 'Intermediate', image: platformImages.leetcode,    icon: Code    },
+  HackerRank: { cardBg: 'rgba(139,94,60,0.06)', barFrom: '#a06840', barTo: '#c4875a', accent: '#a06840', badgeBg: 'rgba(160,104,64,0.12)', badgeText: '#6e4a2e',  badges: ['Gold Badge', '15 Certs'],    rank: 'Proficient',   image: platformImages.hackerrank,  icon: Award   },
+  CodeChef:   { cardBg: 'rgba(196,135,90,0.07)', barFrom: '#8B5E3C', barTo: '#a06840', accent: '#7a4a2a', badgeBg: 'rgba(139,94,60,0.10)', badgeText: '#7a4a2a',  badges: ['200+ Problems'],             rank: 'Intermediate',    image: platformImages.codechef,    icon: Trophy  },
+  Codeforces: { cardBg: 'rgba(234,219,200,0.40)', barFrom: '#a06840', barTo: '#8B5E3C', accent: '#8B5E3C', badgeBg: 'rgba(234,219,200,0.6)', badgeText: '#6e4a2e', badges: ['Rated'],                     rank: 'Intermediate', image: platformImages.codeforces,  icon: Zap     },
 };
 
 const AnimatedCounter = ({ value, isInView }) => {
@@ -44,8 +42,10 @@ const AnimatedCounter = ({ value, isInView }) => {
 };
 
 const CodingPlatforms = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.05 });
 

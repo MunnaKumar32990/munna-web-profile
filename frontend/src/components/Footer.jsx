@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Github, Mail, Phone, MapPin, Heart, Linkedin, Twitter, ArrowUp, Code2 } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const quickLinks = ['About', 'Projects', 'Education', 'Skills', 'Certifications', 'Contact'];
 
@@ -23,8 +22,10 @@ const SocialLink = ({ href, icon: Icon, label }) => (
 );
 
 const Footer = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const year = new Date().getFullYear();
 
   const socialLinks = personalData.socialLinks || {};

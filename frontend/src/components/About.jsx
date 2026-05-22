@@ -1,7 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 import { Globe, Mail, MapPin, Briefcase, Clock, User } from 'lucide-react';
 
 const fadeUp = (delay = 0) => ({
@@ -10,8 +9,11 @@ const fadeUp = (delay = 0) => ({
 });
 
 const About = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (!personalData.name) return <div className="min-h-screen flex items-center justify-center">No data available</div>;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
 

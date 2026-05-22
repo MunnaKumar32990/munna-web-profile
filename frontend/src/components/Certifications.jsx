@@ -2,7 +2,6 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ExternalLink, Award, BadgeCheck, BookOpen, ShieldCheck, Star, ChevronRight } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { personalData as fallbackData } from '../utils/data';
 
 const certIcons = {
   development: <BookOpen className="w-5 h-5" style={{ color: '#8B5E3C' }} />,
@@ -28,8 +27,10 @@ const getCertIcon  = (cat) => certIcons[(cat || '').toLowerCase()]   || certIcon
 const getCertBadge = (cat) => certBadgeStyle[(cat || '').toLowerCase()] || certBadgeStyle.default;
 
 const Certifications = () => {
-  const { portfolio } = usePortfolioData();
-  const personalData = portfolio || fallbackData;
+  const { portfolio, loading } = usePortfolioData();
+  const personalData = portfolio || {};
+
+  if (loading) return null;
   const ref = useRef(null);
   const cardsRef = useRef(null);
   const isInView = useInView(ref, { once: true, threshold: 0.1 });
