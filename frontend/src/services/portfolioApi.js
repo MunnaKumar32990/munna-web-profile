@@ -1,3 +1,5 @@
+import { portfolioData } from '../data/data.js';
+
 // Use relative URL for development (uses Vite proxy) or full URL from env
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
@@ -30,8 +32,8 @@ class PortfolioAPI {
       
       return data;
     } catch (error) {
-      console.error('Error fetching portfolio data:', error);
-      throw new Error('Failed to fetch portfolio data from API');
+      console.warn('API unavailable, using fallback data:', error.message);
+      return portfolioData;
     }
   }
 
