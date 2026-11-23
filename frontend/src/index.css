@@ -1,230 +1,169 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Developer X & Magic UI CSS Custom Properties ===== */
+/* ═══════════════════════════════════════════════════════════════════
+   SPECTOR CREATIVE AGENCY — EDITORIAL DESIGN SYSTEM
+   Palette:
+     • Primary Black:   #111111
+     • Secondary Black: #181818
+     • Primary White:   #FFFFFF
+     • Light Grey:      #F3F3F3
+     • Accent Red:      #F04444
+     • Border Grey:     #E5E5E5
+     • Dark Border:     #262626
+     • Muted Text:      #777777
+   ═══════════════════════════════════════════════════════════════════ */
+
 :root {
-  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-
-  /* Light Mode Palette */
-  --color-bg-base: #F8FAFC;
-  --color-bg-elevated: #F1F5F9;
-  --color-bg-card: #FFFFFF;
-  --color-bg-card-hover: #F8FAFC;
-  --color-border: #E2E8F0;
-  --color-border-hover: rgba(37, 99, 235, 0.4);
-
-  --color-accent-blue: #2563EB;
-  --color-accent-indigo: #4F46E5;
-  --color-accent-cyan: #0284C7;
-
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  --color-black: #111111;
+  --color-dark: #181818;
+  --color-white: #FFFFFF;
+  --color-light: #F3F3F3;
+  --color-red: #F04444;
+  --color-border: #E5E5E5;
+  --color-border-dark: #262626;
+  --color-muted: #777777;
 }
 
-.dark {
-  /* Dark Mode Palette (Developer X) */
-  --color-bg-base: #0B0C10;
-  --color-bg-elevated: #0E1017;
-  --color-bg-card: #13151F;
-  --color-bg-card-hover: #181A27;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(59, 130, 246, 0.5);
-
-  --color-accent-blue: #3B82F6;
-  --color-accent-indigo: #6366F1;
-  --color-accent-cyan: #06B6D4;
-
-  --text-primary: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-}
-
-/* Base Styles */
 * {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  background-color: var(--color-bg-base);
-  color: var(--text-secondary);
-  line-height: 1.6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-black);
+  color: var(--color-black);
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom Scrollbar */
+/* Custom Selection */
+::selection {
+  background-color: #F04444;
+  color: #FFFFFF;
+}
+
+/* Editorial Typography */
+.font-display {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Fluid Editorial Headlines */
+.headline-huge {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.75rem, 8vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.headline-large {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.headline-medium {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.5rem, 3.2vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.label-tiny {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* 1px Editorial Lines */
+.divider-light {
+  height: 1px;
+  background-color: #E5E5E5;
+  width: 100%;
+}
+
+.divider-dark {
+  height: 1px;
+  background-color: #262626;
+  width: 100%;
+}
+
+/* Subtle Interactive Hover Underline */
+.hover-editorial-line {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-editorial-line::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom right;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-editorial-line:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Red Starburst Icon */
+.spector-star {
+  color: #F04444;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Clean Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #111111;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #1F2233;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #333333;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3B82F6;
+  background: #F04444;
 }
 
-/* Selection */
-::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: inherit;
-}
-
-/* Magic UI & Animata Custom Animations */
-@layer utilities {
-  .text-gradient-brand {
-    background: linear-gradient(135deg, #3B82F6 0%, #6366F1 50%, #06B6D4 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Magic UI Shiny Text Sweep */
-  .shiny-text {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(255, 255, 255, 1) 50%,
-      rgba(255, 255, 255, 0.4) 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s infinite;
-  }
-
-  .shiny-text-dark {
-    background: linear-gradient(
-      90deg,
-      rgba(15, 23, 42, 0.5) 0%,
-      rgba(15, 23, 42, 1) 50%,
-      rgba(15, 23, 42, 0.5) 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s infinite;
-  }
-
-  /* Grid backgrounds for both themes */
-  .devx-grid-bg {
-    background-image: 
-      linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-
-  .dark .devx-grid-bg {
-    background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-
-  /* Magic UI Animated Border Beam */
-  .border-beam-container {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .border-beam-container::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: conic-gradient(from 0deg at 50% 50%, transparent 0%, #3B82F6 25%, #6366F1 50%, transparent 75%);
-    border-radius: inherit;
-    animation: spin 6s linear infinite;
-    z-index: 0;
-    opacity: 0.6;
-  }
-
-  .border-beam-inner {
-    position: relative;
-    z-index: 1;
-    border-radius: inherit;
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Developer X Component Styles */
-@layer components {
-  /* Developer X Signature Accent Line with animated glow */
-  .devx-accent-bar {
-    @apply w-12 h-1 bg-blue-600 rounded-full mb-5 shadow-[0_0_12px_rgba(37,99,235,0.6)];
-  }
-
-  /* Developer X Card with Magic UI Hover Elevation */
-  .devx-card {
-    @apply bg-white dark:bg-[#13151F] border border-slate-200 dark:border-white/[0.08] rounded-2xl transition-all duration-300 hover:border-blue-500/50 hover:shadow-xl dark:hover:bg-[#181A27] dark:hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.6)];
-  }
-
-  /* Magic UI Shimmer Button */
-  .btn-devx-primary {
-    @apply relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-all duration-300 transform hover:scale-[1.02] shadow-[0_4px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_25px_rgba(37,99,235,0.5)];
-  }
-
-  .btn-devx-primary::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    animation: shimmer-btn 3s infinite;
-  }
-
-  @keyframes shimmer-btn {
-    0% { left: -100%; }
-    50%, 100% { left: 100%; }
-  }
-
-  /* Developer X Secondary Button */
-  .btn-devx-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-white/[0.12] bg-white dark:bg-white/[0.04] hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-all duration-300 transform hover:scale-[1.02];
-  }
-
-  /* Section Title */
-  .devx-section-title {
-    @apply text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight;
-  }
-
-  /* Section Subtitle */
-  .devx-section-desc {
-    @apply mt-4 text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed;
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

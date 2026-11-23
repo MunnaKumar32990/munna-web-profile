@@ -1,236 +1,167 @@
-import { useState, useEffect } from 'react';
-import { motion, useScroll } from 'framer-motion';
-import {
-  User, Briefcase, Calendar, MapPin, Mail, Phone,
-  CheckCircle2, Sparkles, Terminal, Copy, Check
-} from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Award, GraduationCap, Code } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
 
 const About = () => {
-  const { portfolio, loading } = usePortfolioData();
-  const personalData = portfolio || {};
-  const [copied, setCopied] = useState(false);
-  const [cursorBlink, setCursorBlink] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCursorBlink(prev => !prev);
-    }, 530);
-    return () => clearInterval(interval);
-  }, []);
-
-  if (loading) return null;
-
-  const about = personalData.about || {};
-  const timeline = about.timeline || [];
-
-  const codeSnippet = `// developer.js
-const developer = {
-  name: "${personalData.name || 'Munna Kumar'}",
-  role: "${personalData.role || 'FullStack Developer & AI Specialist'}",
-  academics: "B.Tech in CSE @ ${personalData.university || 'KL University'} (CGPA: ${personalData.cgpa || '9.6'})",
-  problemSolving: "${personalData.leetcodeCount || '200+'}+ LeetCode problems solved",
-  coreStack: ["React", "Node.js", "Python", "AWS", "MongoDB"],
-  cloudCertifications: [
-    "AWS Cloud Practitioner",
-    "Azure Fundamentals",
-    "Oracle AI Associate",
-    "MongoDB Associate Developer"
-  ],
-  passion: "Architecting scalable systems & intelligent AI solutions",
-  status: "Available for new opportunities"
-};`;
-
-  const copyCode = () => {
-    navigator.clipboard.writeText(codeSnippet);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const { portfolio } = usePortfolioData();
+  const about = portfolio?.about || {};
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-white dark:bg-[#0E1017] transition-colors duration-300">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mb-16"
-        >
-          <div className="devx-accent-bar" />
-          <span className="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold block mb-2">
-            My Story & Experience
-          </span>
-          <h2 className="devx-section-title">
-            Engineering with <span className="text-gradient-brand">Passion & Rigor</span>
-          </h2>
-          <p className="devx-section-desc ml-0">
-            From algorithmic problem-solving to cloud-native AI engineering, here is my journey and hands-on experience.
-          </p>
-        </motion.div>
-
-        {/* 2-Column Layout */}
-        <div className="grid lg:grid-cols-12 gap-10 items-start">
-
-          {/* Left Column: Magic UI Border Beam Code Window */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-6"
-          >
-            <div className="relative p-[1.5px] rounded-2xl bg-gradient-to-r from-blue-500/30 via-indigo-500/20 to-cyan-400/30 shadow-2xl hover:shadow-[0_0_30px_rgba(37,99,235,0.25)] transition-all duration-500">
-              <div className="rounded-2xl overflow-hidden bg-[#090A0F] text-slate-300 border border-slate-800/80">
-                {/* Window Header / Controls */}
-                <div className="flex items-center justify-between px-4 py-3 bg-[#11131C] border-b border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#FF5F56] inline-block hover:scale-110 transition-transform cursor-pointer" />
-                    <span className="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block hover:scale-110 transition-transform cursor-pointer" />
-                    <span className="w-3 h-3 rounded-full bg-[#27C93F] inline-block hover:scale-110 transition-transform cursor-pointer" />
-                    <span className="ml-3 text-xs font-mono text-slate-400 flex items-center gap-1.5 bg-[#090A0F] px-3 py-1 rounded-md border border-slate-800">
-                      <Terminal className="w-3.5 h-3.5 text-blue-400" />
-                      developer.js
-                    </span>
-                  </div>
-
-                  <motion.button
-                    onClick={copyCode}
-                    whileTap={{ scale: 0.9 }}
-                    className="text-xs text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors flex items-center gap-1"
-                    title="Copy Code"
-                  >
-                    {copied ? (
-                      <span className="flex items-center gap-1 text-emerald-400 font-mono text-[11px]">
-                        <Check className="w-3.5 h-3.5" /> Copied!
-                      </span>
-                    ) : (
-                      <Copy className="w-3.5 h-3.5" />
-                    )}
-                  </motion.button>
-                </div>
-
-                {/* Code Content with blinking cursor */}
-                <div className="p-5 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-text">
-                  <div className="text-slate-500 italic mb-2">// {personalData.name || 'Munna Kumar'}'s Developer Profile</div>
-                  <div>
-                    <span className="text-purple-400">const </span>
-                    <span className="text-blue-300">developer </span>
-                    <span className="text-slate-400">= </span>
-                    <span className="text-yellow-300">{'{'}</span>
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">name</span>: <span className="text-emerald-300">"{personalData.name || 'Munna Kumar'}"</span>,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">role</span>: <span className="text-emerald-300">"{personalData.role || 'FullStack Developer & AI Specialist'}"</span>,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">academics</span>: <span className="text-emerald-300">"B.Tech in CSE @ {personalData.university || 'KL University'} (CGPA: {personalData.cgpa || '9.6'})"</span>,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">problemSolving</span>: <span className="text-emerald-300">"{personalData.leetcodeCount || '200+'} LeetCode problems solved"</span>,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">coreStack</span>: [
-                    <span className="text-amber-300">"React"</span>, <span className="text-amber-300">"Node.js"</span>, <span className="text-amber-300">"Python"</span>, <span className="text-amber-300">"AWS"</span>, <span className="text-amber-300">"MongoDB"</span>
-                    ],
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">certifications</span>: [
-                    <span className="text-amber-300">"AWS"</span>, <span className="text-amber-300">"Azure"</span>, <span className="text-amber-300">"Oracle AI"</span>, <span className="text-amber-300">"MongoDB"</span>
-                    ],
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">passion</span>: <span className="text-emerald-300">"Architecting scalable systems & AI solutions"</span>,
-                  </div>
-                  <div className="pl-4">
-                    <span className="text-cyan-400">status</span>: <span className="text-blue-400">"Available for new opportunities"</span>
-                    <span className={`inline-block w-2 h-4 ml-1 bg-blue-400 align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'}`} />
-                  </div>
-                  <div>
-                    <span className="text-yellow-300">{'}'}</span>;
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Cards Below Code */}
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              <motion.div
-                whileHover={{ y: -4, scale: 1.02 }}
-                className="devx-card p-4 group cursor-default"
-              >
-                <div className="text-xs font-mono text-slate-500 uppercase">Degree & University</div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 transition-colors">B.Tech in CSE</div>
-                <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold">{personalData.university || 'KL University'} ({personalData.cgpa || '9.6'} CGPA)</div>
-              </motion.div>
-              <motion.div
-                whileHover={{ y: -4, scale: 1.02 }}
-                className="devx-card p-4 group cursor-default"
-              >
-                <div className="text-xs font-mono text-slate-500 uppercase">Algorithmic Practice</div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 transition-colors">{personalData.leetcodeCount || '200+'} LeetCode</div>
-                <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold">Strong Data Structures</div>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Experience Timeline with Animated Nodes */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-6 space-y-6"
-          >
-            <div className="devx-card p-7 sm:p-8">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2.5">
-                <Briefcase className="w-5 h-5 text-blue-600" />
-                Internships & Practical Experience
-              </h3>
-
-              {/* Timeline container */}
-              <div className="relative pl-6 space-y-8 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-blue-600 before:via-indigo-500 before:to-transparent">
-                {timeline.map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.12 }}
-                    whileHover={{ x: 6 }}
-                    className="relative group transition-all"
-                  >
-                    {/* Node Dot with Radar Pulse */}
-                    <div className="absolute -left-[29px] top-1.5 w-3.5 h-3.5 rounded-full bg-white dark:bg-[#13151F] border-2 border-blue-600 group-hover:scale-125 group-hover:bg-blue-600 transition-all shadow-sm">
-                      <span className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-30" />
-                    </div>
-
-                    <div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/20">
-                        {item.year}
-                      </span>
-                      <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
+    <section id="about" className="py-24 bg-white text-[#111111] border-b border-[#E5E5E5]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        {/* Section Label */}
+        <div className="flex items-center gap-2 mb-6 border-b border-[#E5E5E5] pb-4">
+          <span className="text-[#F04444] text-xs font-mono">✻</span>
+          <span className="label-tiny text-[#777777]">04 / PHILOSOPHY & BACKGROUND</span>
         </div>
 
+        {/* Oversized Headline */}
+        <div className="mb-16">
+          <h2 className="headline-large text-[#111111]">
+            BEYOND WRITING CODE,<br />
+            I BUILD <span className="text-[#F04444]">SOLUTIONS.</span>
+          </h2>
+        </div>
+
+        {/* Two-Column Editorial Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: Portrait & Key Attributes */}
+          <div className="lg:col-span-5 flex flex-col gap-8">
+            {/* Rectangular Agency Portrait (Minimal 1px Border, No Rounded Blobs) */}
+            <div className="relative border border-[#E5E5E5] bg-[#F3F3F3] p-2 aspect-[4/5] overflow-hidden group">
+              <img
+                src={portfolio?.profileImage || './NewProfile.png'}
+                alt={portfolio?.name || 'Munna Kumar'}
+                className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700 ease-out"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              <div className="absolute bottom-4 left-4 right-4 bg-[#111111]/90 backdrop-blur-sm text-white p-3 border border-[#333333] flex items-center justify-between">
+                <div>
+                  <div className="font-display font-bold text-xs uppercase tracking-wider">
+                    {portfolio?.name || 'MUNNA KUMAR'}
+                  </div>
+                  <div className="font-mono text-[10px] text-[#AAAAAA]">
+                    {portfolio?.role || 'BACKEND & AI ENGINEER'}
+                  </div>
+                </div>
+                <span className="text-[#F04444] text-xs">✻</span>
+              </div>
+            </div>
+
+            {/* Quick Stat Pill Cards */}
+            <div className="grid grid-cols-2 gap-4 font-mono text-xs">
+              <div className="border border-[#E5E5E5] p-4 bg-[#FAFAFA]">
+                <span className="text-[10px] text-[#777777] uppercase block mb-1">
+                  CURRENT CGPA
+                </span>
+                <span className="font-display font-bold text-lg text-[#111111]">
+                  {portfolio?.cgpa || '9.6'} / 10
+                </span>
+                <span className="text-[11px] text-[#555555] block mt-0.5">
+                  KL University
+                </span>
+              </div>
+
+              <div className="border border-[#E5E5E5] p-4 bg-[#FAFAFA]">
+                <span className="text-[10px] text-[#777777] uppercase block mb-1">
+                  ALGORITHMS
+                </span>
+                <span className="font-display font-bold text-lg text-[#111111]">
+                  {portfolio?.leetcodeCount || '200+'} Solved
+                </span>
+                <span className="text-[11px] text-[#555555] block mt-0.5">
+                  LeetCode & DSA
+                </span>
+              </div>
+            </div>
+
+            {/* Resume Button */}
+            <a
+              href="/PortfolioResume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-between p-4 border border-[#111111] text-[#111111] hover:bg-[#111111] hover:text-white transition-all uppercase font-display font-bold text-xs tracking-widest group"
+            >
+              <span>DOWNLOAD CURRICULUM VITAE</span>
+              <ArrowUpRight className="w-4 h-4 text-[#F04444] group-hover:text-white transition-colors" />
+            </a>
+          </div>
+
+          {/* Right Column: Detailed Narrative & Focus Areas */}
+          <div className="lg:col-span-7 flex flex-col gap-10">
+            {/* Primary Narrative */}
+            <div>
+              <span className="font-mono text-xs text-[#F04444] uppercase tracking-wider block mb-2">
+                // EXECUTIVE SUMMARY
+              </span>
+              <p className="text-lg sm:text-xl text-[#222222] font-normal leading-relaxed">
+                Detail-oriented Software & Backend Engineer with robust expertise in Python, FastAPI, Java SpringBoot, and modern React interfaces. Experienced in deploying cloud-native solutions leveraging AWS, integrating cutting-edge LLMs, and solving complex algorithmic challenges.
+              </p>
+            </div>
+
+            {/* Horizontal Line */}
+            <div className="divider-light" />
+
+            {/* Core Pillars */}
+            <div className="space-y-6">
+              <span className="font-mono text-xs text-[#777777] uppercase tracking-wider block">
+                [ CORE TECHNICAL PILLARS ]
+              </span>
+
+              <div className="border-t border-[#E5E5E5] pt-4">
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <h4 className="font-display font-bold text-base text-[#111111] uppercase tracking-tight">
+                    01. SCALABLE BACKEND & API ARCHITECTURE
+                  </h4>
+                  <span className="font-mono text-xs text-[#F04444]">✦</span>
+                </div>
+                <p className="text-sm text-[#555555] leading-relaxed">
+                  Engineering high-throughput, low-latency RESTful APIs and WebSocket microservices with FastAPI and SpringBoot. Dedicated to schema rigor, clean layering, and database efficiency.
+                </p>
+              </div>
+
+              <div className="border-t border-[#E5E5E5] pt-4">
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <h4 className="font-display font-bold text-base text-[#111111] uppercase tracking-tight">
+                    02. INTELLIGENT AI & MULTIMODAL SYSTEMS
+                  </h4>
+                  <span className="font-mono text-xs text-[#F04444]">✦</span>
+                </div>
+                <p className="text-sm text-[#555555] leading-relaxed">
+                  Integrating OpenAI GPT-4, Groq, Gemini API, and Azure Cognitive Services to solve real-world problems — such as multilingual voice assistance for farmers and regulatory compliance checking.
+                </p>
+              </div>
+
+              <div className="border-t border-[#E5E5E5] pt-4">
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <h4 className="font-display font-bold text-base text-[#111111] uppercase tracking-tight">
+                    03. CLOUD DEPLOYMENT & CONTAINERIZATION
+                  </h4>
+                  <span className="font-mono text-xs text-[#F04444]">✦</span>
+                </div>
+                <p className="text-sm text-[#555555] leading-relaxed">
+                  Certified AWS Cloud Practitioner with hands-on SageMaker, Lambda, and Step Functions experience, reducing cloud resource expenses through automated workflows and model optimization.
+                </p>
+              </div>
+            </div>
+
+            {/* Horizontal Line */}
+            <div className="divider-light" />
+
+            {/* Personal Manifesto Quote */}
+            <div className="bg-[#FAFAFA] border-l-2 border-[#F04444] p-5">
+              <p className="font-display text-sm text-[#333333] italic leading-relaxed">
+                "Writing code is only 20% of engineering. The remaining 80% is designing modular systems, preventing edge cases, and ensuring that software serves human needs seamlessly."
+              </p>
+              <div className="mt-3 font-mono text-xs text-[#777777] uppercase tracking-wider">
+                — Munna Kumar
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
