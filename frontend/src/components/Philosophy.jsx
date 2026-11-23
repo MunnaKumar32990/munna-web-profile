@@ -62,3 +62,4 @@ const Philosophy = () => {
 };
 
 export default Philosophy;
+
