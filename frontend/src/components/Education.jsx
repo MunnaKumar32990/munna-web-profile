@@ -1,189 +1,81 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { GraduationCap, Calendar, Award, BookOpen, Rocket, Lightbulb } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { GraduationCap, Award, Calendar, BookOpen, Sparkles } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-
-const educationIcons = [
-  <GraduationCap className="w-5 h-5" style={{ color: '#8B5E3C' }} />,
-  <BookOpen className="w-5 h-5" style={{ color: '#c4875a' }} />,
-  <Rocket className="w-5 h-5" style={{ color: '#a06840' }} />,
-  <Lightbulb className="w-5 h-5" style={{ color: '#8B5E3C' }} />,
-  <Award className="w-5 h-5" style={{ color: '#c4875a' }} />,
-];
-
-const dotColors = [
-  'linear-gradient(135deg, #8B5E3C, #c4875a)',
-  'linear-gradient(135deg, #c4875a, #EADBC8)',
-  'linear-gradient(135deg, #a06840, #c4875a)',
-  'linear-gradient(135deg, #8B5E3C, #a06840)',
-  'linear-gradient(135deg, #c4875a, #8B5E3C)',
-];
-
-const barColors = [
-  'linear-gradient(90deg, #8B5E3C, #c4875a, #EADBC8)',
-  'linear-gradient(90deg, #c4875a, #EADBC8, #F5F5DC)',
-  'linear-gradient(90deg, #a06840, #c4875a, #EADBC8)',
-  'linear-gradient(90deg, #8B5E3C, #a06840, #c4875a)',
-  'linear-gradient(90deg, #c4875a, #8B5E3C, #a06840)',
-];
-
-const iconBgColors = [
-  'rgba(139,94,60,0.12)',
-  'rgba(196,135,90,0.15)',
-  'rgba(160,104,64,0.12)',
-  'rgba(139,94,60,0.10)',
-  'rgba(196,135,90,0.12)',
-];
 
 const Education = () => {
   const { portfolio, loading } = usePortfolioData();
   const personalData = portfolio || {};
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, threshold: 0.1 });
-  const educationData = personalData.education || [];
+
+  if (loading) return null;
+
+  const educationList = personalData.education || [];
 
   return (
-    <section
-      ref={ref}
-      className="py-24 relative overflow-hidden"
-      style={{ background: '#FEFCF7' }}
-      id="education"
-    >
-      {/* Subtle background grid */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(139,94,60,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(139,94,60,0.04) 1px, transparent 1px)',
-          backgroundSize: '50px 50px',
-        }}
-      />
+    <section id="education" className="py-24 relative overflow-hidden bg-white dark:bg-[#0E1017] transition-colors duration-300">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 right-10 w-80 h-80 bg-blue-500/10 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <div
-            className="inline-flex items-center justify-center w-14 h-14 mb-4 rounded-2xl"
-            style={{ background: 'rgba(139,94,60,0.12)' }}
-          >
-            <GraduationCap className="w-7 h-7" style={{ color: '#8B5E3C' }} />
-          </div>
-          <span className="section-subtitle block mb-2">Academic Journey</span>
-          <h2 className="section-title" style={{ color: '#3A2D28' }}>
-            Education
+          <div className="devx-accent-bar mx-auto" />
+          <h2 className="devx-section-title">
+            Academic Background
           </h2>
-          <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'linear-gradient(90deg, #8B5E3C, #c4875a)' }} />
-          <p className="mt-4 max-w-xl mx-auto" style={{ color: '#6B5A4E' }}>
-            My academic journey and learning milestones that shaped my career
+          <p className="devx-section-desc">
+            Formal engineering foundations and academic achievements shaping my technical rigor.
           </p>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical line */}
-          <div
-            className="hidden md:block absolute left-7 top-0 h-full w-0.5"
-            style={{ background: 'linear-gradient(to bottom, #8B5E3C, #c4875a, #EADBC8)' }}
-          />
-
-          <div className="space-y-8">
-            {educationData.map((edu, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -40 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: index * 0.2, duration: 0.6 }}
-                className="relative"
-              >
-                {/* Dot */}
-                <div
-                  className="hidden md:flex absolute left-3.5 top-6 w-7 h-7 rounded-full items-center justify-center shadow-lg z-10"
-                  style={{ background: dotColors[index % dotColors.length] }}
+        {/* Education Cards Stack */}
+        <div className="space-y-6">
+          {educationList.map((edu, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -4, scale: 1.01 }}
+              className="devx-card p-6 sm:p-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 group hover:border-blue-500/40 hover:shadow-xl transition-all"
+            >
+              <div className="flex items-start sm:items-center gap-5">
+                <motion.div
+                  whileHover={{ rotate: 12, scale: 1.1 }}
+                  className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 flex-shrink-0"
                 >
-                  <div className="w-2 h-2 bg-white rounded-full" />
+                  <GraduationCap className="w-6 h-6" />
+                </motion.div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-700 dark:text-blue-300 font-semibold">
+                      {edu.year}
+                    </span>
+                    {edu.title.includes('Bachelor') && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold">
+                        CGPA {personalData.cgpa || '9.6'}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {edu.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1 max-w-2xl">
+                    {edu.description}
+                  </p>
                 </div>
-
-                <div className="md:ml-20">
-                  <motion.div
-                    className="rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border group"
-                    style={{ background: '#FEFCF7', borderColor: '#EADBC8' }}
-                    whileHover={{ y: -4, scale: 1.01 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  >
-                    <div className="p-6 md:p-7">
-                      {/* Year badge */}
-                      <div className="inline-flex items-center gap-2 mb-4">
-                        <Calendar className="w-3.5 h-3.5" style={{ color: '#8B5E3C' }} />
-                        <span
-                          className="text-xs font-bold px-3 py-1 rounded-full"
-                          style={{ color: '#8B5E3C', background: 'rgba(139,94,60,0.12)' }}
-                        >
-                          {edu.year}
-                        </span>
-                      </div>
-
-                      {/* Icon + Title */}
-                      <div className="flex items-start gap-3 mb-3">
-                        <div
-                          className="p-2 rounded-xl flex-shrink-0"
-                          style={{ background: iconBgColors[index % iconBgColors.length] }}
-                        >
-                          {educationIcons[index % educationIcons.length]}
-                        </div>
-                        <h3 className="text-xl font-bold leading-tight" style={{ color: '#3A2D28' }}>
-                          {edu.title}
-                        </h3>
-                      </div>
-
-                      {edu.institution && (
-                        <p className="font-medium text-sm mb-3" style={{ color: '#8B5E3C' }}>
-                          {edu.institution}
-                        </p>
-                      )}
-
-                      <p className="text-sm leading-relaxed" style={{ color: '#6B5A4E' }}>
-                        {edu.description}
-                      </p>
-
-                      {edu.gpa && (
-                        <div className="inline-flex items-center gap-2 mt-4 text-sm font-semibold">
-                          <Award className="w-4 h-4" style={{ color: '#c4875a' }} />
-                          <span
-                            className="px-3 py-1 rounded-full"
-                            style={{ color: '#8B5E3C', background: 'rgba(196,135,90,0.15)' }}
-                          >
-                            GPA: {edu.gpa}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Color bar */}
-                    <div className="h-1" style={{ background: barColors[index % barColors.length] }} />
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Footer note */}
-        <motion.div
-          className="text-center mt-14"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.9, duration: 0.7 }}
-        >
-          <div className="inline-flex items-center gap-3 text-sm" style={{ color: '#8B5E3C' }}>
-            <div className="w-10 h-px" style={{ background: 'linear-gradient(90deg, transparent, #8B5E3C)' }} />
-            <span className="font-medium">Lifelong Learning</span>
-            <div className="w-10 h-px" style={{ background: 'linear-gradient(90deg, #8B5E3C, transparent)' }} />
-          </div>
-        </motion.div>
       </div>
     </section>
   );

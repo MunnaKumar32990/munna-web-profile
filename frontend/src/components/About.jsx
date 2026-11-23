@@ -1,244 +1,236 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { motion, useScroll } from 'framer-motion';
+import {
+  User, Briefcase, Calendar, MapPin, Mail, Phone,
+  CheckCircle2, Sparkles, Terminal, Copy, Check
+} from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
-import { Globe, Mail, MapPin, Briefcase, Clock, User } from 'lucide-react';
-
-const fadeUp = (delay = 0) => ({
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, delay, ease: 'easeOut' } },
-});
 
 const About = () => {
   const { portfolio, loading } = usePortfolioData();
   const personalData = portfolio || {};
+  const [copied, setCopied] = useState(false);
+  const [cursorBlink, setCursorBlink] = useState(true);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  if (!personalData.name) return <div className="min-h-screen flex items-center justify-center">No data available</div>;
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, threshold: 0.1 });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCursorBlink(prev => !prev);
+    }, 530);
+    return () => clearInterval(interval);
+  }, []);
 
-  const inViewState = isInView ? 'visible' : 'hidden';
+  if (loading) return null;
+
+  const about = personalData.about || {};
+  const timeline = about.timeline || [];
+
+  const codeSnippet = `// developer.js
+const developer = {
+  name: "${personalData.name || 'Munna Kumar'}",
+  role: "${personalData.role || 'FullStack Developer & AI Specialist'}",
+  academics: "B.Tech in CSE @ ${personalData.university || 'KL University'} (CGPA: ${personalData.cgpa || '9.6'})",
+  problemSolving: "${personalData.leetcodeCount || '200+'}+ LeetCode problems solved",
+  coreStack: ["React", "Node.js", "Python", "AWS", "MongoDB"],
+  cloudCertifications: [
+    "AWS Cloud Practitioner",
+    "Azure Fundamentals",
+    "Oracle AI Associate",
+    "MongoDB Associate Developer"
+  ],
+  passion: "Architecting scalable systems & intelligent AI solutions",
+  status: "Available for new opportunities"
+};`;
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(codeSnippet);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
-    <section
-      className="py-20 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #F5F5DC 0%, #FEFCF7 50%, #EADBC8 100%)' }}
-      id="about"
-      ref={ref}
-    >
-      {/* Background decorations */}
-      <div
-        className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
-        style={{ background: 'rgba(196, 135, 90, 0.15)' }}
-      />
-      <div
-        className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none"
-        style={{ background: 'rgba(139, 94, 60, 0.10)' }}
-      />
+    <section id="about" className="py-24 relative overflow-hidden bg-white dark:bg-[#0E1017] transition-colors duration-300">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
         {/* Section Header */}
         <motion.div
-          className="text-center mb-14"
-          variants={fadeUp(0)}
-          initial="hidden"
-          animate={inViewState}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-3xl mb-16"
         >
-          <span className="section-subtitle">Personal Profile</span>
-          <h2
-            className="section-title mt-3"
-            style={{
-              background: 'linear-gradient(135deg, #8B5E3C, #c4875a)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            About Me
+          <div className="devx-accent-bar" />
+          <span className="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold block mb-2">
+            My Story & Experience
+          </span>
+          <h2 className="devx-section-title">
+            Engineering with <span className="text-gradient-brand">Passion & Rigor</span>
           </h2>
-          <div
-            className="w-16 h-1 mx-auto mt-4 rounded-full"
-            style={{ background: 'linear-gradient(90deg, #8B5E3C, #c4875a)' }}
-          />
+          <p className="devx-section-desc ml-0">
+            From algorithmic problem-solving to cloud-native AI engineering, here is my journey and hands-on experience.
+          </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-10 items-start max-w-6xl mx-auto">
+        {/* 2-Column Layout */}
+        <div className="grid lg:grid-cols-12 gap-10 items-start">
 
-          {/* Left Column */}
+          {/* Left Column: Magic UI Border Beam Code Window */}
           <motion.div
-            className="space-y-6"
-            variants={fadeUp(0.2)}
-            initial="hidden"
-            animate={inViewState}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6"
           >
-            {/* Profile Card */}
-            <motion.div
-              className="card p-6 hover:shadow-xl"
-              whileHover={{ y: -4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
-              <div className="flex items-center gap-5 mb-6">
-                <div className="relative">
-                  <div
-                    className="absolute inset-0 rounded-full blur-md opacity-50"
-                    style={{ background: 'linear-gradient(135deg, #8B5E3C, #c4875a)' }}
-                  />
-                  <div
-                    className="relative p-0.5 rounded-full"
-                    style={{ background: 'linear-gradient(135deg, #8B5E3C, #c4875a)' }}
-                  >
-                    <img
-                      src={personalData.profileImage}
-                      alt={personalData.name}
-                      className="w-20 h-20 rounded-full object-cover border-2 border-white dark:border-[#2a1f1a]"
-                    />
+            <div className="relative p-[1.5px] rounded-2xl bg-gradient-to-r from-blue-500/30 via-indigo-500/20 to-cyan-400/30 shadow-2xl hover:shadow-[0_0_30px_rgba(37,99,235,0.25)] transition-all duration-500">
+              <div className="rounded-2xl overflow-hidden bg-[#090A0F] text-slate-300 border border-slate-800/80">
+                {/* Window Header / Controls */}
+                <div className="flex items-center justify-between px-4 py-3 bg-[#11131C] border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#FF5F56] inline-block hover:scale-110 transition-transform cursor-pointer" />
+                    <span className="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block hover:scale-110 transition-transform cursor-pointer" />
+                    <span className="w-3 h-3 rounded-full bg-[#27C93F] inline-block hover:scale-110 transition-transform cursor-pointer" />
+                    <span className="ml-3 text-xs font-mono text-slate-400 flex items-center gap-1.5 bg-[#090A0F] px-3 py-1 rounded-md border border-slate-800">
+                      <Terminal className="w-3.5 h-3.5 text-blue-400" />
+                      developer.js
+                    </span>
                   </div>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <User className="w-4 h-4" style={{ color: '#8B5E3C' }} />
-                    <h3 className="text-lg font-bold" style={{ color: '#3A2D28' }}>{personalData.name}</h3>
-                  </div>
-                  <p className="font-medium text-sm" style={{ color: '#8B5E3C' }}>{personalData.role}</p>
-                  <p className="text-sm mt-0.5 text-slate-500">{personalData.tagline}</p>
-                </div>
-              </div>
 
-              <div className="space-y-3">
-                <div
-                  className="flex items-center gap-3 p-3 rounded-xl"
-                  style={{ background: 'rgba(234, 219, 200, 0.5)' }}
-                >
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(139, 94, 60, 0.15)' }}
+                  <motion.button
+                    onClick={copyCode}
+                    whileTap={{ scale: 0.9 }}
+                    className="text-xs text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors flex items-center gap-1"
+                    title="Copy Code"
                   >
-                    <MapPin className="w-4 h-4" style={{ color: '#8B5E3C' }} />
+                    {copied ? (
+                      <span className="flex items-center gap-1 text-emerald-400 font-mono text-[11px]">
+                        <Check className="w-3.5 h-3.5" /> Copied!
+                      </span>
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
+                  </motion.button>
+                </div>
+
+                {/* Code Content with blinking cursor */}
+                <div className="p-5 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-text">
+                  <div className="text-slate-500 italic mb-2">// {personalData.name || 'Munna Kumar'}'s Developer Profile</div>
+                  <div>
+                    <span className="text-purple-400">const </span>
+                    <span className="text-blue-300">developer </span>
+                    <span className="text-slate-400">= </span>
+                    <span className="text-yellow-300">{'{'}</span>
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">name</span>: <span className="text-emerald-300">"{personalData.name || 'Munna Kumar'}"</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">role</span>: <span className="text-emerald-300">"{personalData.role || 'FullStack Developer & AI Specialist'}"</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">academics</span>: <span className="text-emerald-300">"B.Tech in CSE @ {personalData.university || 'KL University'} (CGPA: {personalData.cgpa || '9.6'})"</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">problemSolving</span>: <span className="text-emerald-300">"{personalData.leetcodeCount || '200+'} LeetCode problems solved"</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">coreStack</span>: [
+                    <span className="text-amber-300">"React"</span>, <span className="text-amber-300">"Node.js"</span>, <span className="text-amber-300">"Python"</span>, <span className="text-amber-300">"AWS"</span>, <span className="text-amber-300">"MongoDB"</span>
+                    ],
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">certifications</span>: [
+                    <span className="text-amber-300">"AWS"</span>, <span className="text-amber-300">"Azure"</span>, <span className="text-amber-300">"Oracle AI"</span>, <span className="text-amber-300">"MongoDB"</span>
+                    ],
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">passion</span>: <span className="text-emerald-300">"Architecting scalable systems & AI solutions"</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-cyan-400">status</span>: <span className="text-blue-400">"Available for new opportunities"</span>
+                    <span className={`inline-block w-2 h-4 ml-1 bg-blue-400 align-middle ${cursorBlink ? 'opacity-100' : 'opacity-0'}`} />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500">Location</p>
-                    <p className="font-semibold text-sm" style={{ color: '#3A2D28' }}>{personalData.location}</p>
-                  </div>
-                </div>
-
-                <div
-                  className="flex items-center gap-3 p-3 rounded-xl"
-                  style={{ background: 'rgba(234, 219, 200, 0.5)' }}
-                >
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(196, 135, 90, 0.2)' }}
-                  >
-                    <Mail className="w-4 h-4" style={{ color: '#c4875a' }} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500">Email</p>
-                    <p className="font-semibold text-sm break-all" style={{ color: '#3A2D28' }}>{personalData.email}</p>
+                    <span className="text-yellow-300">{'}'}</span>;
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* About Description */}
-            <motion.div
-              className="relative rounded-3xl overflow-hidden shadow-xl"
-              whileHover={{ y: -4 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
-              <div
-                className="absolute inset-0"
-                style={{ background: 'linear-gradient(135deg, #8B5E3C 0%, #c4875a 60%, #EADBC8 100%)' }}
-              />
-              <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl -mr-16 -mt-16" />
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full blur-xl -ml-10 -mb-10" />
-              <div className="relative p-7 text-white">
-                <div className="flex items-center gap-3 mb-4">
-                  <motion.div
-                    animate={{ rotate: [0, 15, -15, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
-                  >
-                    <Globe className="w-7 h-7" />
-                  </motion.div>
-                  <h3 className="text-lg font-bold">About Me</h3>
-                </div>
-                <p className="text-white/90 leading-relaxed text-sm">
-                  {personalData.about?.description || ''}
-                </p>
-              </div>
-            </motion.div>
+            {/* Quick Cards Below Code */}
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="devx-card p-4 group cursor-default"
+              >
+                <div className="text-xs font-mono text-slate-500 uppercase">Degree & University</div>
+                <div className="text-sm font-bold text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 transition-colors">B.Tech in CSE</div>
+                <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold">{personalData.university || 'KL University'} ({personalData.cgpa || '9.6'} CGPA)</div>
+              </motion.div>
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="devx-card p-4 group cursor-default"
+              >
+                <div className="text-xs font-mono text-slate-500 uppercase">Algorithmic Practice</div>
+                <div className="text-sm font-bold text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 transition-colors">{personalData.leetcodeCount || '200+'} LeetCode</div>
+                <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold">Strong Data Structures</div>
+              </motion.div>
+            </div>
           </motion.div>
 
-          {/* Right Column – Compact Experience */}
+          {/* Right Column: Experience Timeline with Animated Nodes */}
           <motion.div
-            className="space-y-6"
-            variants={fadeUp(0.3)}
-            initial="hidden"
-            animate={inViewState}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 space-y-6"
           >
-            <div className="card p-6 hover:shadow-xl transition-shadow duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: 'rgba(139, 94, 60, 0.15)' }}
-                >
-                  <Briefcase className="w-5 h-5" style={{ color: '#8B5E3C' }} />
-                </div>
-                <h3 className="text-xl font-bold" style={{ color: '#3A2D28' }}>Professional Experience</h3>
-              </div>
+            <div className="devx-card p-7 sm:p-8">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2.5">
+                <Briefcase className="w-5 h-5 text-blue-600" />
+                Internships & Practical Experience
+              </h3>
 
-              {/* Compact vertical list */}
-              <div className="space-y-4">
-                {(personalData.about?.timeline || []).map((item, index) => (
+              {/* Timeline container */}
+              <div className="relative pl-6 space-y-8 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-blue-600 before:via-indigo-500 before:to-transparent">
+                {timeline.map((item, idx) => (
                   <motion.div
-                    key={index}
-                    variants={fadeUp(0.4 + index * 0.1)}
-                    initial="hidden"
-                    animate={inViewState}
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.12 }}
+                    whileHover={{ x: 6 }}
+                    className="relative group transition-all"
                   >
-                    <motion.div
-                      className="flex gap-4 p-4 rounded-2xl border transition-all duration-300 cursor-default"
-                      style={{
-                        background: 'rgba(245, 245, 220, 0.5)',
-                        borderColor: 'rgba(234, 219, 200, 0.8)',
-                      }}
-                      whileHover={{
-                        x: 4,
-                        background: 'rgba(234, 219, 200, 0.7)',
-                        borderColor: '#c4875a',
-                      }}
-                    >
-                      {/* Year badge – left */}
-                      <div className="flex-shrink-0 flex flex-col items-center gap-1 pt-0.5">
-                        <div
-                          className="w-8 h-8 rounded-full flex items-center justify-center shadow-md"
-                          style={{ background: 'linear-gradient(135deg, #8B5E3C, #c4875a)' }}
-                        >
-                          <Clock className="w-3.5 h-3.5 text-white" />
-                        </div>
-                        <span
-                          className="text-xs font-bold px-2 py-0.5 rounded-full"
-                          style={{ background: 'rgba(139,94,60,0.15)', color: '#8B5E3C' }}
-                        >
-                          {item.year}
-                        </span>
-                      </div>
+                    {/* Node Dot with Radar Pulse */}
+                    <div className="absolute -left-[29px] top-1.5 w-3.5 h-3.5 rounded-full bg-white dark:bg-[#13151F] border-2 border-blue-600 group-hover:scale-125 group-hover:bg-blue-600 transition-all shadow-sm">
+                      <span className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-30" />
+                    </div>
 
-                      {/* Content – right */}
-                      <div className="min-w-0">
-                        <h4 className="font-bold text-sm leading-snug mb-1" style={{ color: '#3A2D28' }}>
-                          {item.title}
-                        </h4>
-                        <p className="text-slate-600 text-xs leading-relaxed line-clamp-3">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
+                    <div>
+                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/20">
+                        {item.year}
+                      </span>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
             </div>
           </motion.div>
+
         </div>
+
       </div>
     </section>
   );

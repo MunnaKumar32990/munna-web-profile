@@ -1,65 +1,75 @@
 import { portfolioData } from '../data/data.js';
 
-// Use relative URL for development (uses Vite proxy) or full URL from env
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA SOURCE STRATEGY
+//
+//  • If VITE_API_URL is set in your .env file, the app fetches from that
+//    backend URL and falls back to local data.js only on failure.
+//  • If VITE_API_URL is NOT set (default / frontend-only mode), the app
+//    uses data.js directly — no network request, instant load.
+//
+//  To edit your portfolio content: update frontend/src/data/data.js
+//  To point at a live backend:    set VITE_API_URL=https://your-api.com in .env
+// ─────────────────────────────────────────────────────────────────────────────
+
+const BACKEND_URL = import.meta.env.VITE_API_URL; // undefined when not set
 
 class PortfolioAPI {
   constructor() {
-    this.baseURL = API_BASE_URL;
     this.cache = null;
-    this.cacheTime = null;
-    this.CACHE_DURATION = 0; // Disable cache temporarily
   }
 
   async fetchPortfolio() {
-    // Check cache
-    if (this.cache && this.cacheTime && Date.now() - this.cacheTime < this.CACHE_DURATION) {
-      return this.cache;
+    // ── Frontend-only mode (no backend configured) ──────────────────────────
+    if (!BACKEND_URL) {
+      console.info('[Portfolio] Using local data.js (no VITE_API_URL set)');
+      return portfolioData;
     }
 
+    // ── Backend mode: fetch with a 5-second timeout ─────────────────────────
+    if (this.cache) return this.cache;
+
     try {
-      const response = await fetch(`${this.baseURL}/portfolio`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch(`${BACKEND_URL}/api/portfolio`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
       const data = await response.json();
-      
-      // Update cache
       this.cache = data;
-      this.cacheTime = Date.now();
-      
       return data;
     } catch (error) {
-      console.warn('API unavailable, using fallback data:', error.message);
+      console.warn('[Portfolio] Backend unavailable, falling back to data.js:', error.message);
       return portfolioData;
     }
   }
 
   clearCache() {
     this.cache = null;
-    this.cacheTime = null;
   }
 
-  // Force refresh - clear cache and fetch fresh data
   async refresh() {
     this.clearCache();
-    return await this.fetchPortfolio();
+    return this.fetchPortfolio();
   }
 }
 
-// Export singleton instance
 export const portfolioAPI = new PortfolioAPI();
 export default portfolioAPI;
 
-// Extra helper to fetch live coding stats
+// Live coding stats helper (only works when backend is configured)
 export async function fetchLiveStats() {
-  const baseURL = import.meta.env.VITE_API_URL || '/api';
-  const res = await fetch(`${baseURL}/stats`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch stats: ${res.status}`);
-  }
+  if (!BACKEND_URL) throw new Error('No backend configured');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  const res = await fetch(`${BACKEND_URL}/api/stats`, { signal: controller.signal });
+  clearTimeout(timeout);
+  if (!res.ok) throw new Error(`Failed to fetch stats: ${res.status}`);
   return res.json();
 }
 

@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { Cpu, Layers, Server, Wrench, Database, Sparkles } from 'lucide-react';
 import { usePortfolioData } from '../contexts/PortfolioContext';
 
 const skillIcons = {
@@ -22,211 +22,136 @@ const skillIcons = {
   SQL: 'https://cdn-icons-png.flaticon.com/512/4248/4248443.png',
 };
 
-// Warm earthy category colors
-const categoryColors = {
-  frontend: {
-    from: 'from-[#8B5E3C]', to: 'to-[#c4875a]',
-    text: 'text-[#8B5E3C]',
-    bg: 'bg-[#EADBC8]/60',
-    border: 'border-[#EADBC8]',
+const skillCategories = [
+  {
+    title: 'Frontend Engineering',
+    description: 'Modern component-driven web interfaces with fluid responsiveness and state management.',
+    icon: Layers,
+    skills: ['React', 'JavaScript', 'HTML/CSS', 'Tailwind CSS'],
+    color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
   },
-  backend: {
-    from: 'from-[#6a5a3a]', to: 'to-[#a08050]',
-    text: 'text-[#6a5a3a]',
-    bg: 'bg-[#f0e8d8]/60',
-    border: 'border-[#d4c4a0]',
+  {
+    title: 'Backend & APIs',
+    description: 'High-throughput microservices, REST APIs, and event-driven architectures.',
+    icon: Server,
+    skills: ['Node.js', 'Express', 'Python', 'FastAPI', 'REST APIs'],
+    color: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
   },
-  database: {
-    from: 'from-[#5a6a3a]', to: 'to-[#809050]',
-    text: 'text-[#5a6a3a]',
-    bg: 'bg-[#e8f0d8]/60',
-    border: 'border-[#c0d4a0]',
+  {
+    title: 'Database & Cloud',
+    description: 'Document and relational databases alongside cloud deployment infrastructure.',
+    icon: Database,
+    skills: ['MongoDB', 'SQL', 'AWS', 'Docker'],
+    color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
   },
-  tools: {
-    from: 'from-[#7a5040]', to: 'to-[#c07060]',
-    text: 'text-[#7a5040]',
-    bg: 'bg-[#f8ece8]/60',
-    border: 'border-[#e0c0b0]',
+  {
+    title: 'Languages & Tools',
+    description: 'Core programming languages, version control, and modern engineering workflows.',
+    icon: Wrench,
+    skills: ['Python', 'Java', 'Git', 'GitHub'],
+    color: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
   },
-};
-
-// Fixed orbs using warm tones
-const orbs = [
-  { width: 200, height: 200, top: 10, left: 5, color: 'rgba(139,94,60,0.3)' },
-  { width: 300, height: 300, top: 60, left: 80, color: 'rgba(196,135,90,0.25)' },
-  { width: 150, height: 150, top: 30, left: 50, color: 'rgba(234,219,200,0.4)' },
-  { width: 250, height: 250, top: 80, left: 20, color: 'rgba(139,94,60,0.2)' },
-  { width: 180, height: 180, top: 5, left: 70, color: 'rgba(196,135,90,0.2)' },
-  { width: 220, height: 220, top: 50, left: 35, color: 'rgba(234,219,200,0.3)' },
 ];
-
-const SkillCard = ({ skill, index, colors, isInView }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30, scale: 0.9 }}
-    animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-    transition={{ delay: index * 0.07, type: 'spring', stiffness: 200, damping: 20 }}
-    whileHover={{ y: -8, scale: 1.05 }}
-    className="group cursor-pointer"
-  >
-    <div
-      className={`relative p-5 rounded-2xl shadow-sm border ${colors.border} hover:shadow-xl transition-all duration-300 overflow-hidden`}
-      style={{ background: '#FEFCF7' }}
-    >
-      {/* Hover shimmer */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: 'linear-gradient(135deg, rgba(234,219,200,0.5), rgba(139,94,60,0.05))' }}
-      />
-
-      <div className="relative z-10 flex flex-col items-center text-center">
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110"
-          style={{ background: 'rgba(234,219,200,0.6)' }}
-        >
-          {skillIcons[skill.name] ? (
-            <img src={skillIcons[skill.name]} alt={skill.name} className="w-9 h-9 object-contain" />
-          ) : (
-            <span className="text-2xl">✨</span>
-          )}
-        </div>
-
-        <h3 className={`text-sm font-semibold ${colors.text} leading-tight`}>
-          {skill.name}
-        </h3>
-
-        {skill.level && (
-          <div className="w-full mt-2.5">
-            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: '#EADBC8' }}>
-              <motion.div
-                className={`h-full bg-gradient-to-r ${colors.from} ${colors.to} rounded-full`}
-                initial={{ width: 0 }}
-                animate={isInView ? { width: `${skill.level}%` } : {}}
-                transition={{ delay: index * 0.07 + 0.3, duration: 0.8, ease: 'easeOut' }}
-              />
-            </div>
-            <span className={`text-xs font-medium ${colors.text} mt-1 block`}>{skill.level}%</span>
-          </div>
-        )}
-      </div>
-
-      {/* Bottom accent bar */}
-      <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r ${colors.from} ${colors.to} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left w-full`} />
-    </div>
-  </motion.div>
-);
 
 const Skills = () => {
   const { portfolio, loading } = usePortfolioData();
-  const personalData = portfolio || {};
 
   if (loading) return null;
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, threshold: 0.05 });
-
-  const updatedSkills = {
-    ...(personalData.skills || {}),
-    backend: [
-      ...(personalData.skills?.backend || []),
-      { name: 'SpringBoot' },
-      { name: 'FastAPI' },
-    ],
-    database: [
-      { name: 'SQL' },
-      { name: 'MongoDB' },
-    ],
-  };
 
   return (
-    <section
-      className="py-24 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #F5F5DC 0%, #FEFCF7 50%, #EADBC8 100%)' }}
-      id="skills"
-      ref={ref}
-    >
-      {/* Fixed floating orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {orbs.map((orb, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full opacity-30"
-            style={{
-              width: orb.width,
-              height: orb.height,
-              top: `${orb.top}%`,
-              left: `${orb.left}%`,
-              background: `radial-gradient(circle, ${orb.color}, transparent)`,
-            }}
-            animate={{ x: [0, i % 2 === 0 ? 30 : -30, 0], y: [0, i % 2 === 0 ? -20 : 20, 0] }}
-            transition={{ duration: 15 + i * 3, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        ))}
-      </div>
+    <section id="skills" className="py-24 relative overflow-hidden bg-slate-50 dark:bg-[#0B0C10] devx-grid-bg transition-colors duration-300">
+      {/* Background Glow */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.03, 0.08, 0.03] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-500 rounded-full blur-[150px] pointer-events-none"
+      />
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Section Header */}
         <motion.div
-          className="text-center mb-14 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="section-subtitle">Technical Expertise</span>
-          <h2 className="section-title mt-2" style={{ color: '#3A2D28' }}>
-            My{' '}
-            <span style={{ background: 'linear-gradient(135deg, #8B5E3C, #c4875a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Skills
-            </span>
+          <div className="devx-accent-bar mx-auto" />
+          <h2 className="devx-section-title">
+            Technologies & Stack
           </h2>
-          <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'linear-gradient(90deg, #8B5E3C, #c4875a)' }} />
-          <p className="mt-4 leading-relaxed" style={{ color: '#6B5A4E' }}>
-            A showcase of my technical expertise — always learning, adapting, and building clean solutions.
+          <p className="devx-section-desc">
+            A comprehensive overview of programming languages, libraries, databases, and DevOps tools I use.
           </p>
         </motion.div>
 
-        {/* Skills by Category */}
-        <div className="space-y-14">
-          {Object.entries(updatedSkills).map(([category, skills], catIdx) => {
-            const colors = categoryColors[category] || categoryColors.tools;
-            return (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.1 + catIdx * 0.15, duration: 0.6 }}
-              >
-                {/* Category Header */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className={`px-4 py-1.5 rounded-full text-sm font-bold capitalize ${colors.bg} ${colors.text} border ${colors.border}`}>
-                    {category}
+        {/* 4-Card Categorized Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {skillCategories.map((category, idx) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -6 }}
+              className="devx-card p-7 flex flex-col justify-between group hover:border-blue-500/50 hover:shadow-xl transition-all"
+            >
+              <div>
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-4">
+                  <motion.div
+                    whileHover={{ rotate: 12, scale: 1.1 }}
+                    className={`w-12 h-12 rounded-2xl ${category.color} flex items-center justify-center shadow-sm`}
+                  >
+                    <category.icon className="w-6 h-6" />
+                  </motion.div>
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {category.title}
+                    </h3>
+                    <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                      {category.skills.length} Core Technologies
+                    </span>
                   </div>
-                  <div className={`flex-1 h-px bg-gradient-to-r ${colors.from} ${colors.to} opacity-40`} />
-                  <span className="text-sm" style={{ color: '#8B5E3C' }}>{skills.length} skills</span>
                 </div>
 
-                {/* Skills Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {skills.map((skill, i) => (
-                    <SkillCard key={skill.name} skill={skill} index={i} colors={colors} isInView={isInView} />
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                  {category.description}
+                </p>
+              </div>
+
+              {/* Skills Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-100 dark:border-white/[0.06]">
+                {category.skills.map((skillName) => (
+                  <motion.div
+                    key={skillName}
+                    whileHover={{ y: -5, scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] hover:border-blue-500/40 hover:bg-white dark:hover:bg-white/[0.04] transition-all group/item cursor-pointer shadow-sm hover:shadow-md"
+                  >
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2">
+                      {skillIcons[skillName] ? (
+                        <img
+                          src={skillIcons[skillName]}
+                          alt={skillName}
+                          className="w-7 h-7 object-contain group-hover/item:scale-115 transition-transform duration-300"
+                        />
+                      ) : (
+                        <Sparkles className="w-5 h-5 text-blue-500" />
+                      )}
+                    </div>
+                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 text-center leading-tight">
+                      {skillName}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Footer tagline */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          <div className="inline-flex items-center gap-4 text-sm" style={{ color: '#8B5E3C' }}>
-            <div className="w-16 h-px" style={{ background: 'linear-gradient(90deg, transparent, #8B5E3C)' }} />
-            <span className="font-medium">Always learning and growing</span>
-            <div className="w-16 h-px" style={{ background: 'linear-gradient(90deg, #8B5E3C, transparent)' }} />
-          </div>
-        </motion.div>
       </div>
     </section>
   );

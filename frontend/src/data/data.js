@@ -1,12 +1,26 @@
 export const portfolioData = {
   initials: "M",
   name: "Munna Kumar",
-  role: "FullStack Developer",
-  tagline: "Crafting beautiful, interactive web experiences",
+  role: "Backend Developer & AI Engineer",
+  tagline: "Available for New Roles & Projects",
+  heroDescription: "I engineer scalable, production-ready web applications and intelligent AI architectures. Proficient in Python, FastAPI , SpringBoot, React and AWS with 200+ algorithmic problems solved on LeetCode and a 9.6 CGPA at KL University.",
   email: "munnakushw7@gmail.com",
   phone: "+91 6207693788",
   location: "India",
   profileImage: "./NewProfile.png",
+
+  // ── Stats shown in Hero badges & About code window ──────────────────────
+  cgpa: "9.6",
+  university: "KL University",
+  leetcodeCount: "200+",
+  githubRepos: "60+",
+
+  socialLinks: {
+    github: "https://github.com/MunnaKumar32990",
+    linkedin: "https://linkedin.com/in/MunnaKumar32990",
+    twitter: "https://twitter.com",
+    email: "munnakushw7@gmail.com"
+  },
 
   education: [
     {
@@ -22,14 +36,14 @@ export const portfolioData = {
     {
       year: "2023–present",
       title: "Bachelor of Technology in Computer Science",
-      description: "Pursuing B.Tech at KL University, Vijayawada, with a current CGPA of 9.58."
+      description: "Pursuing B.Tech at KL University, Vijayawada, with a current CGPA of 9.6"
     }
   ],
 
   about: {
-    description: `Detail-oriented Full Stack Developer with robust expertise in Python, JavaScript, Java, and C. Solved 198+ algorithmic
+    description: `Detail-oriented Backend Developer with robust expertise in Python, FastAPI, java Springboot. Solved 200+ algorithmic
 problems on LeetCode, showcasing strong analytical and problem-solving abilities. Proficient in developing scalable, secure
-web applications using Django, React.js, and the MERN stack. Experienced with deploying cloud-native solutions leveraging
+web applications using FastAPI, Springboot, React.js. Experienced with deploying cloud-native solutions leveraging
 AWS services. Passionate about AI integration and cloud infrastructure, aiming to contribute meaningfully to dynamic and
 innovative development teams.`,
 
@@ -93,18 +107,9 @@ innovative development teams.`,
       githubUrl: "https://github.com/MunnaKumar32990/AI-powered-meeting-notes-summarizer-and-sharer",
       details: "Full Stack Project Using Flask And Groq (AI-powered meeting notes summarizer and sharer)."
     },
+
     {
       id: 5,
-      title: "AI-Powered Resume Builder",
-      description: "An AI-driven resume builder that generates personalized resumes based on user input",
-      image: "./airesume.png",
-      tags: ["React", " Node.js", "OpenAI API ", "Express", "Puppeteer"],
-      liveUrl: "#",
-      githubUrl: "https://github.com/MunnaKumar32990/AI-Resume-Builder",
-      details: "Developed an AI-powered resume builder that generates personalized resumes using OpenAI API, enhancing user experience with automated content generation and formatting."
-    },
-    {
-      id: 6,
       title: "Employee Management System",
       description: "A comprehensive employee management system with role-based access control",
       image: "./employee.png",
@@ -123,7 +128,10 @@ innovative development teams.`,
       { name: "Tailwind CSS" }
     ],
     backend: [
+      { name: "FastAPI" },
+      { name: "SpringBoot" },
       { name: "Node.js" },
+
       { name: "Express" },
       { name: "MongoDB" },
       { name: "REST APIs" }
@@ -182,33 +190,7 @@ innovative development teams.`,
       link: "https://trailhead.salesforce.com/en/credentials/verification/",
       category: "ai"
     },
-    {
-      id: 6,
-      title: "NPTEL Programming in Java",
-      issuer: "NPTEL",
-      date: "2024",
-      image: "java.png",
-      link: "https://archive.nptel.ac.in/noc/Ecertificate/?q=NPTEL24CS105S55570014204153920",
-      category: "development"
-    },
-    {
-      id: 7,
-      title: "NPTEL Operating System Fundamentals",
-      issuer: "NPTEL",
-      date: "2024",
-      image: "os.png",
-      link: "https://archive.nptel.ac.in/noc/Ecertificate/?q=NPTEL24CS108S65570197204153920",
-      category: "computer-science"
-    },
-    {
-      id: 8,
-      title: "LinguaSkill English Language Proficiency",
-      issuer: "Cambridge University Press",
-      date: "2024",
-      image: "lingua.png",
-      link: "https://results.linguaskill.com/home",
-      category: "language"
-    }
+
   ],
 
   codingPlatforms: [
@@ -222,7 +204,7 @@ innovative development teams.`,
     {
       name: "LeetCode",
       username: "munnakumar",
-      stats: "198+ problems solved",
+      stats: "200+ problems solved",
       icon: "Code",
       url: "https://leetcode.com/u/KLU2300032990/"
     },
